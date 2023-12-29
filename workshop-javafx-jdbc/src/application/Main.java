@@ -22,9 +22,9 @@ public class Main extends Application {
 			scroll_pane.setFitToHeight(true);
 			scroll_pane.setFitToWidth(true);
 			
-			Scene mainScene = new Scene(scroll_pane);
+			Scene main_scene = new Scene(scroll_pane);
 			
-			primaryStage.setScene(mainScene);
+			primaryStage.setScene(main_scene);
 			primaryStage.setTitle("Sample JavaFX application");
 			primaryStage.show();
 		} 

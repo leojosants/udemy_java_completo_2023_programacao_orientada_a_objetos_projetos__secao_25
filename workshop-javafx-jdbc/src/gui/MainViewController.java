@@ -1,0 +1,44 @@
+/*-------------------- packages --------------------*/
+package gui;
+
+/*-------------------- imports --------------------*/
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
+
+/*-------------------- class MainViewController --------------------*/
+public class MainViewController implements Initializable {
+
+	/*-------------------- attributes --------------------*/
+	@FXML
+	private MenuItem menu_item_seller;
+
+	@FXML
+	private MenuItem menu_item_department;
+	
+	@FXML
+	private MenuItem menu_item_about;
+	
+	/*-------------------- methods --------------------*/
+	@FXML
+	public void onMenuItemSellerAction() {
+		System.out.println("onMenuItemSellerAction");
+	}
+	
+	@FXML
+	public void onMenuItemDepartmentAction() {
+		System.out.println("onMenuItemDepartmentAction");
+	}
+	
+	@FXML
+	public void onMenuItemAboutAction() {
+		System.out.println("onMenuItemAboutAction");
+	}
+	
+	@Override
+	public void initialize(URL url, ResourceBundle resource_bundle) {
+		// TODO Auto-generated method stub		
+	}
+}
