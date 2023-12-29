@@ -2,18 +2,27 @@
 package gui;
 
 /*-------------------- imports --------------------*/
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import application.Main;
+import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
@@ -44,8 +53,9 @@ public class DepartmentListController implements Initializable {
 	}
 	
 	@FXML
-	public void onButtonNewAction() {
-		System.out.println("onButtonNewAction");
+	public void onButtonNewAction(ActionEvent event) {
+		Stage parent_stage = Utils.currentStage(event);
+		createDialogForm("/gui/DepartmentForm.fxml", parent_stage);
 	}
 	
 	@Override
@@ -69,5 +79,23 @@ public class DepartmentListController implements Initializable {
 		List<Department> list = this.service.findAll();
 		this.observable_list = FXCollections.observableArrayList(list);
 		this.table_view_department.setItems(this.observable_list);
+	}
+	
+	private void createDialogForm(String absolute_name, Stage parent_stage) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolute_name));
+			Pane pane = loader.load();
+
+			Stage dialog_stage = new Stage();
+			dialog_stage.setTitle("Enter Department data");
+			dialog_stage.setScene(new Scene(pane));
+			dialog_stage.setResizable(false);
+			dialog_stage.initOwner(parent_stage);
+			dialog_stage.initModality(Modality.WINDOW_MODAL);
+			dialog_stage.showAndWait();
+		} 
+		catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR);
+		}
 	}
 }
