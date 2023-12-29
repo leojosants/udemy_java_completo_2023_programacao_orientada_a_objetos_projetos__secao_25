@@ -4,20 +4,22 @@ package gui;
 /*-------------------- imports --------------------*/
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import gui.util.Constraints;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Department;
 
 /*-------------------- class DepartmentFormController --------------------*/
 public class DepartmentFormController implements Initializable {
 
 	/*-------------------- attributes --------------------*/
+	private Department entity;
+	
 	@FXML
-	private TextField text_ld;
+	private TextField text_id;
 	
 	@FXML
 	private TextField text_name;
@@ -30,6 +32,11 @@ public class DepartmentFormController implements Initializable {
 	
 	@FXML
 	private Button button_cancel;
+
+	/*-------------------- getters and setters --------------------*/
+	public void setDepartment(Department entity) {
+		this.entity = entity;
+	}
 	
 	/*-------------------- methods --------------------*/
 	public void onButtonSaveAction() {
@@ -42,11 +49,19 @@ public class DepartmentFormController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resource_bundle) {
-		initializeNodes();
+		this.initializeNodes();
 	}
 	
 	private void initializeNodes() {
-		Constraints.setTextFieldInteger(text_ld);
+		Constraints.setTextFieldInteger(text_id);
 		Constraints.setTextFieldMaxLength(text_name, 30);
+	}
+	
+	public void updateFormData() {
+		if (this.entity == null) {
+			throw new IllegalStateException("Entity was null");
+		}
+		this.text_id.setText(String.valueOf(this.entity.getId()));
+		this.text_name.setText(this.entity.getName());
 	}
 }
