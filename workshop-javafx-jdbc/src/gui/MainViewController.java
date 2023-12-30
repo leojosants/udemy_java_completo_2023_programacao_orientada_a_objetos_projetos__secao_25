@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-
 import application.Main;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
@@ -19,6 +18,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.DepartmentService;
+import model.services.SellerService;
 
 /*-------------------- class MainViewController --------------------*/
 public class MainViewController implements Initializable {
@@ -36,7 +36,10 @@ public class MainViewController implements Initializable {
 	/*-------------------- methods --------------------*/
 	@FXML
 	public void onMenuItemSellerAction() {
-		System.out.println("onMenuItemSellerAction");
+		this.loadView("/gui/SellerList.fxml", (SellerListController controller) -> {
+			controller.setSellerService(instanceateSellerService());
+			controller.updateTableView();
+		});
 	}
 	
 	@FXML
@@ -47,6 +50,10 @@ public class MainViewController implements Initializable {
 		});
 	}
 	
+	private DepartmentService instanceateDepartmentService() {
+		return new DepartmentService();
+	}
+
 	@FXML
 	public void onMenuItemAboutAction() {
 		this.loadView("/gui/About.fxml", x -> {});
@@ -77,7 +84,7 @@ public class MainViewController implements Initializable {
 		}
 	}
 	
-	private DepartmentService instanceateDepartmentService() {
-		return new DepartmentService();
+	private SellerService instanceateSellerService() {
+		return new SellerService();
 	}
 }
