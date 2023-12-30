@@ -3,6 +3,7 @@ package gui;
 
 /*-------------------- imports --------------------*/
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -35,13 +36,22 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private SellerService service;
 
 	@FXML
-	private TableView<Seller> table_view_department;
+	private TableView<Seller> table_view_seller;
 
 	@FXML
 	private TableColumn<Seller, Integer> table_column_id;
 
 	@FXML
 	private TableColumn<Seller, String> table_column_name;
+	
+	@FXML
+	private TableColumn<Seller, String> table_column_email;
+	
+	@FXML
+	private TableColumn<Seller, Date> table_column_birth_date;
+	
+	@FXML
+	private TableColumn<Seller, Double> table_column_base_salary;
 
 	@FXML
 	private TableColumn<Seller, Seller> table_column_edit;
@@ -63,7 +73,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	public void onButtonNewAction(ActionEvent event) {
 		Stage parent_stage = Utils.currentStage(event);
 		Seller obj = instanceateSeller();
-//		this.createDialogForm(obj, "/gui/SellerForm.fxml", parent_stage);
+		this.createDialogForm(obj, "/gui/SellerForm.fxml", parent_stage);
 	}
 
 	@Override
@@ -74,20 +84,25 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private void initializeNodes() {
 		this.table_column_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		this.table_column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+		this.table_column_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+		this.table_column_birth_date.setCellValueFactory(new PropertyValueFactory<>("birth_date"));
+		Utils.formatTableColumnDate(this.table_column_birth_date, "dd/MM/yyyy");
+		this.table_column_base_salary.setCellValueFactory(new PropertyValueFactory<>("base_salary"));		
+		Utils.formatTableColumnDouble(this.table_column_base_salary, 2);
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		this.table_view_department.prefHeightProperty().bind(stage.heightProperty());
+		this.table_view_seller.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
 		if (this.service == null) { throw new IllegalStateException("Service was null"); }
 		List<Seller> list = this.service.findAll();
 		this.observable_list = FXCollections.observableArrayList(list);
-		this.table_view_department.setItems(this.observable_list);
+		this.table_view_seller.setItems(this.observable_list);
 		this.initEditButtons();
 		this.initRemoveButtons();
 	}
 
-//	private void createDialogForm(Seller obj, String absolute_name, Stage parent_stage) {
+	private void createDialogForm(Seller obj, String absolute_name, Stage parent_stage) {
 //		try {
 //			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolute_name));
 //			Pane pane = loader.load();
@@ -109,7 +124,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 //		catch (IOException e) {
 //			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR);
 //		}
-//	}
+	}
 
 	private Stage instanceateStage() {
 		return new Stage();
@@ -144,7 +159,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 				}
 
 				setGraphic(button);
-//				button.setOnAction(event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+				button.setOnAction(event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
