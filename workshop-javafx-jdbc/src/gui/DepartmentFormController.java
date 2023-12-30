@@ -5,7 +5,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import db.DbException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
@@ -19,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Department;
+import model.exceptions.ValidationException;
 import model.services.DepartmentService;
 
 /*-------------------- class DepartmentFormController --------------------*/
@@ -63,13 +66,16 @@ public class DepartmentFormController implements Initializable {
 		if (this.service == null) { throw new IllegalStateException("Service was null"); }
 		
 		try {
-			this.entity = getFormDate();
+			this.entity = this.getFormData();
 			this.service.saveOrUpdate(this.entity);
 			this.notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		} 
 		catch (DbException e) {
 			Alerts.showAlert("Error save objects", null, e.getMessage(), AlertType.ERROR);
+		}
+		catch (ValidationException e) {
+			this.setErrorMessages(e.getErros());
 		}
 	}
 	
@@ -79,10 +85,17 @@ public class DepartmentFormController implements Initializable {
 		}
 	}
 
-	private Department getFormDate() {
+	private Department getFormData() {
 		Department obj = instanceateDepartment();
+		ValidationException exception = new ValidationException("Validation error");
 		obj.setId(Utils.tryParseToInt(this.text_id.getText()));
+
+		if (this.text_name.getText() == null || this.text_name.getText().trim().equals("")) {
+			exception.addError("name", "Field can't be empty");
+		}
+		
 		obj.setName(this.text_name.getText());
+		if (exception.getErros().size() > 0) { throw exception; }
 		return obj;
 	}
 
@@ -112,5 +125,11 @@ public class DepartmentFormController implements Initializable {
 	
 	private Department instanceateDepartment() {
 		return new Department();
+	}
+	
+	private void setErrorMessages(Map<String, String> errors) {
+		Set<String> fields = errors.keySet();
+		
+		if (fields.contains("name")) { this.label_error_name.setText(errors.get("name")); }
 	}
 }
