@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -28,7 +29,7 @@ import model.entities.Department;
 import model.services.DepartmentService;
 
 /*-------------------- class DepartmentListController --------------------*/
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
 
 	/*-------------------- attributes --------------------*/
 	private DepartmentService service;
@@ -55,28 +56,24 @@ public class DepartmentListController implements Initializable {
 	@FXML
 	public void onButtonNewAction(ActionEvent event) {
 		Stage parent_stage = Utils.currentStage(event);
-		Department obj = new Department();
-		createDialogForm(obj, "/gui/DepartmentForm.fxml", parent_stage);
+		Department obj = instanceateDepartment();
+		this.createDialogForm(obj, "/gui/DepartmentForm.fxml", parent_stage);
 	}
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource_bundle) {
-		initializeNodes();
+		this.initializeNodes();
 	}
 
 	private void initializeNodes() {
 		this.table_column_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		this.table_column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		
 		this.table_view_department.prefHeightProperty().bind(stage.heightProperty());
 	}		
 	
 	public void updateTableView() {
-		if (this.service == null) {
-			throw new IllegalStateException("Service was null");
-		}
+		if (this.service == null) { throw new IllegalStateException("Service was null"); }
 		List<Department> list = this.service.findAll();
 		this.observable_list = FXCollections.observableArrayList(list);
 		this.table_view_department.setItems(this.observable_list);
@@ -89,10 +86,11 @@ public class DepartmentListController implements Initializable {
 			
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
-			controller.setDepartmentService(new DepartmentService());
+			controller.setDepartmentService(instanceateDepartmentService());
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
-			Stage dialog_stage = new Stage();
+			Stage dialog_stage = instanceateStage();
 			dialog_stage.setTitle("Enter Department data");
 			dialog_stage.setScene(new Scene(pane));
 			dialog_stage.setResizable(false);
@@ -103,5 +101,22 @@ public class DepartmentListController implements Initializable {
 		catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR);
 		}
+	}
+	
+	private Stage instanceateStage() {
+		return new Stage();
+	}
+
+	private DepartmentService instanceateDepartmentService() {
+		return new DepartmentService();
+	}
+
+	private Department instanceateDepartment() {
+		return new Department();
+	}
+
+	@Override
+	public void onDataChanged() {
+		this.updateTableView();
 	}
 }
