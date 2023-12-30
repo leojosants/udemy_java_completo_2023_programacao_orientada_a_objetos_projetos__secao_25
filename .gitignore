@@ -23,6 +23,7 @@
 hs_err_pid*
 replay_pid*
 /.metadata/
+
 # build folders
 bin/
 target/
@@ -31,3 +32,6 @@ build/
 nbbuild/
 dist/
 nbdist/ 
+
+# Eclipse
+.settings/
