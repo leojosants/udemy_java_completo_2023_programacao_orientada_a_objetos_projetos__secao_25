@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 /*-------------------- class SellerListController --------------------*/
@@ -114,7 +115,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 			SellerFormController controller = loader.getController();
 			controller.setSeller(obj);
-			controller.setSellerService(instanceateSellerService());
+			controller.setServices(instanceateSellerService(), instanceateDepartmentService());
+			controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
@@ -126,7 +128,14 @@ public class SellerListController implements Initializable, DataChangeListener {
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} 
-		catch (IOException e) { Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR); }
+		catch (IOException e) { 
+			e.printStackTrace();
+			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR); 
+		}
+	}
+
+	private DepartmentService instanceateDepartmentService() {
+		return new DepartmentService();
 	}
 
 	private Stage instanceateStage() {
