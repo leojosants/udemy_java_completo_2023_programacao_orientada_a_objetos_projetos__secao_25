@@ -36,33 +36,33 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private SellerService service;
 
 	@FXML
-	private TableView<Seller> table_view_seller;
+	private TableView<Seller> tableViewSeller;
 
 	@FXML
-	private TableColumn<Seller, Integer> table_column_id;
+	private TableColumn<Seller, Integer> tableColumnId;
 
 	@FXML
-	private TableColumn<Seller, String> table_column_name;
+	private TableColumn<Seller, String> tableColumnName;
 	
 	@FXML
-	private TableColumn<Seller, String> table_column_email;
+	private TableColumn<Seller, String> tableColumnEmail;
 	
 	@FXML
-	private TableColumn<Seller, Date> table_column_birth_date;
+	private TableColumn<Seller, Date> tableColumnBirthDate;
 	
 	@FXML
-	private TableColumn<Seller, Double> table_column_base_salary;
+	private TableColumn<Seller, Double> tableColumnBaseSalary;
 
 	@FXML
-	private TableColumn<Seller, Seller> table_column_edit;
+	private TableColumn<Seller, Seller> tableColumnEdit;
 
 	@FXML
-	private TableColumn<Seller, Seller> table_column_remove;
+	private TableColumn<Seller, Seller> tableColumnRemove;
 
 	@FXML
-	private Button button_new;
+	private Button buttonNew;
 
-	private ObservableList<Seller> observable_list;
+	private ObservableList<Seller> observableList;
 
 	/*-------------------- methods --------------------*/
 	public void setSellerService(SellerService service) {
@@ -71,40 +71,40 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 	@FXML
 	public void onButtonNewAction(ActionEvent event) {
-		Stage parent_stage = Utils.currentStage(event);
+		Stage parentStage = Utils.currentStage(event);
 		Seller obj = instanceateSeller();
-		this.createDialogForm(obj, "/gui/SellerForm.fxml", parent_stage);
+		this.createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
 	}
 
 	@Override
-	public void initialize(URL url, ResourceBundle resource_bundle) {
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 		this.initializeNodes();
 	}
 
 	private void initializeNodes() {
-		this.table_column_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-		this.table_column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		this.table_column_email.setCellValueFactory(new PropertyValueFactory<>("email"));
-		this.table_column_birth_date.setCellValueFactory(new PropertyValueFactory<>("birth_date"));
-		Utils.formatTableColumnDate(this.table_column_birth_date, "dd/MM/yyyy");
-		this.table_column_base_salary.setCellValueFactory(new PropertyValueFactory<>("base_salary"));		
-		Utils.formatTableColumnDouble(this.table_column_base_salary, 2);
+		this.tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		this.tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		this.tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		this.tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		Utils.formatTableColumnDate(this.tableColumnBirthDate, "dd/MM/yyyy");
+		this.tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));		
+		Utils.formatTableColumnDouble(this.tableColumnBaseSalary, 2);
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		this.table_view_seller.prefHeightProperty().bind(stage.heightProperty());
+		this.tableViewSeller.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
 		if (this.service == null) { throw new IllegalStateException("Service was null"); }
 		List<Seller> list = this.service.findAll();
-		this.observable_list = FXCollections.observableArrayList(list);
-		this.table_view_seller.setItems(this.observable_list);
+		this.observableList = FXCollections.observableArrayList(list);
+		this.tableViewSeller.setItems(this.observableList);
 		this.initEditButtons();
 		this.initRemoveButtons();
 	}
 
-	private void createDialogForm(Seller obj, String absolute_name, Stage parent_stage) {
+	private void createDialogForm(Seller obj, String absoluteName, Stage parentStage) {
 //		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolute_name));
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 //			Pane pane = loader.load();
 //
 //			SellerFormController controller = loader.getController();
@@ -113,17 +113,15 @@ public class SellerListController implements Initializable, DataChangeListener {
 //			controller.subscribeDataChangeListener(this);
 //			controller.updateFormData();
 //
-//			Stage dialog_stage = instanceateStage();
-//			dialog_stage.setTitle("Enter Seller data");
-//			dialog_stage.setScene(new Scene(pane));
-//			dialog_stage.setResizable(false);
-//			dialog_stage.initOwner(parent_stage);
-//			dialog_stage.initModality(Modality.WINDOW_MODAL);
-//			dialog_stage.showAndWait();
+//			Stage dialogStage = instanceateStage();
+//			dialogStage.setTitle("Enter Seller data");
+//			dialogStage.setScene(new Scene(pane));
+//			dialogStage.setResizable(false);
+//			dialogStage.initOwner(parent_stage);
+//			dialogStage.initModality(Modality.WINDOW_MODAL);
+//			dialogStage.showAndWait();
 //		} 
-//		catch (IOException e) {
-//			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR);
-//		}
+//		catch (IOException e) { Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR); }
 	}
 
 	private Stage instanceateStage() {
@@ -144,9 +142,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void initEditButtons() {
-		this.table_column_edit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		this.tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 
-		this.table_column_edit.setCellFactory(param -> new TableCell<Seller, Seller>() {
+		this.tableColumnEdit.setCellFactory(param -> new TableCell<Seller, Seller>() {
 			private final Button button = new Button("edit");
 
 			@Override
@@ -165,9 +163,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void initRemoveButtons() {
-		this.table_column_remove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		this.tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		
-		this.table_column_remove.setCellFactory(param -> new TableCell<Seller, Seller>() {
+		this.tableColumnRemove.setCellFactory(param -> new TableCell<Seller, Seller>() {
 			private final Button button = new Button("remove");
 
 			@Override

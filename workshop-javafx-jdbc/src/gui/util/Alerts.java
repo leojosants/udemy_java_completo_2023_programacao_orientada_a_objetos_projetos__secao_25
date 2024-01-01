@@ -11,8 +11,8 @@ import javafx.scene.control.ButtonType;
 public class Alerts {
 
 	/*-------------------- methods --------------------*/
-	public static void showAlert(String title, String header, String content, AlertType alert_type) {
-		Alert alert = new Alert(alert_type);
+	public static void showAlert(String title, String header, String content, AlertType alertType) {
+		Alert alert = new Alert(alertType);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(content);

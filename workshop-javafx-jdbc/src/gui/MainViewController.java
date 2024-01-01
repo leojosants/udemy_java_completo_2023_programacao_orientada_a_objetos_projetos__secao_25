@@ -25,13 +25,13 @@ public class MainViewController implements Initializable {
 
 	/*-------------------- attributes --------------------*/
 	@FXML
-	private MenuItem menu_item_seller;
+	private MenuItem menuItemSeller;
 
 	@FXML
-	private MenuItem menu_item_department;
+	private MenuItem menuItemDepartment;
 	
 	@FXML
-	private MenuItem menu_item_about;
+	private MenuItem menuItemAbout;
 	
 	/*-------------------- methods --------------------*/
 	@FXML
@@ -60,24 +60,24 @@ public class MainViewController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL url, ResourceBundle resource_bundle) {
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 		// TODO Auto-generated method stub		
 	}
 	
-	private synchronized <T> void loadView(String absolute_name, Consumer<T> initializing_action) {
+	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolute_name));
-			VBox new_vbox = loader.load();
-			Scene main_scene = Main.getMainScene();
-			VBox main_vbox = (VBox) ((ScrollPane) main_scene.getRoot()).getContent();
-			Node main_menu = main_vbox.getChildren().get(0);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			VBox newVbox = loader.load();
+			Scene mainScene = Main.getMainScene();
+			VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+			Node mainMenu = mainVbox.getChildren().get(0);
 
-			main_vbox.getChildren().clear();
-			main_vbox.getChildren().add(main_menu);
-			main_vbox.getChildren().addAll(new_vbox.getChildren());
+			mainVbox.getChildren().clear();
+			mainVbox.getChildren().add(mainMenu);
+			mainVbox.getChildren().addAll(newVbox.getChildren());
 			
 			T controller = loader.getController();
-			initializing_action.accept(controller);
+			initializingAction.accept(controller);
 		} 
 		catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);

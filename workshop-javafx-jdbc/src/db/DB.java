@@ -44,9 +44,9 @@ public class DB {
 	}
 	
 	private static Properties loadProperties() {
-		try (FileInputStream file_inputStream = new FileInputStream("db.properties")) {
+		try (FileInputStream fileInputStream = new FileInputStream("db.properties")) {
 			Properties props = new Properties();
-			props.load(file_inputStream);
+			props.load(fileInputStream);
 			return props;
 		}
 		catch (IOException e) {

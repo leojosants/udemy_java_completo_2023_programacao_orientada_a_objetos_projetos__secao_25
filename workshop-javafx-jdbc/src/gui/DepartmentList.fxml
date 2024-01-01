@@ -21,15 +21,15 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button fx:id="button_new" mnemonicParsing="false" onAction="#onButtonNewAction" text="New" />
+          <Button fx:id="buttonNew" mnemonicParsing="false" onAction="#onButtonNewAction" text="New" />
         </items>
       </ToolBar>
-      <TableView fx:id="table_view_department" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableViewDepartment" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn fx:id="table_column_id" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="table_column_name" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="table_column_edit" prefWidth="75.0" />
-            <TableColumn fx:id="table_column_remove" prefWidth="75.0" />
+          <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tableColumnEdit" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnRemove" prefWidth="75.0" />
         </columns>
       </TableView>
    </children>

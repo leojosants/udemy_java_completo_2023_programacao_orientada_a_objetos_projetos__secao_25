@@ -23,8 +23,8 @@ public class ValidationException extends RuntimeException {
 	}
 
 	/*-------------------- methods --------------------*/
-	public void addError(String field_name, String error_message) {
-		this.erros.put(field_name, error_message);
+	public void addError(String fieldName, String errorMessage) {
+		this.erros.put(fieldName, errorMessage);
 	}
 	
 	private Map<String, String> instanceateMapHashMap() {

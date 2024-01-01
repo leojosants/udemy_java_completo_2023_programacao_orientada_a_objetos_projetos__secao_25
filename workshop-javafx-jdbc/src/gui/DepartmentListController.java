@@ -40,24 +40,24 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	private DepartmentService service;
 
 	@FXML
-	private TableView<Department> table_view_department;
+	private TableView<Department> tableViewDepartment;
 
 	@FXML
-	private TableColumn<Department, Integer> table_column_id;
+	private TableColumn<Department, Integer> tableColumnId;
 
 	@FXML
-	private TableColumn<Department, String> table_column_name;
+	private TableColumn<Department, String> tableColumnName;
 
 	@FXML
-	private TableColumn<Department, Department> table_column_edit;
+	private TableColumn<Department, Department> tableColumnEdit;
 
 	@FXML
-	private TableColumn<Department, Department> table_column_remove;
+	private TableColumn<Department, Department> tableColumnRemove;
 
 	@FXML
-	private Button button_new;
+	private Button buttonNew;
 
-	private ObservableList<Department> observable_list;
+	private ObservableList<Department> observableList;
 
 	/*-------------------- methods --------------------*/
 	public void setDepartmentService(DepartmentService service) {
@@ -66,50 +66,50 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
 	@FXML
 	public void onButtonNewAction(ActionEvent event) {
-		Stage parent_stage = Utils.currentStage(event);
-		Department obj = instanceateDepartment();
-		this.createDialogForm(obj, "/gui/DepartmentForm.fxml", parent_stage);
+		Stage parentStage = Utils.currentStage(event);
+		Department object = instanceateDepartment();
+		this.createDialogForm(object, "/gui/DepartmentForm.fxml", parentStage);
 	}
 
 	@Override
-	public void initialize(URL url, ResourceBundle resource_bundle) {
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 		this.initializeNodes();
 	}
 
 	private void initializeNodes() {
-		this.table_column_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-		this.table_column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+		this.tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		this.tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		this.table_view_department.prefHeightProperty().bind(stage.heightProperty());
+		this.tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
 		if (this.service == null) { throw new IllegalStateException("Service was null"); }
 		List<Department> list = this.service.findAll();
-		this.observable_list = FXCollections.observableArrayList(list);
-		this.table_view_department.setItems(this.observable_list);
+		this.observableList = FXCollections.observableArrayList(list);
+		this.tableViewDepartment.setItems(this.observableList);
 		this.initEditButtons();
 		this.initRemoveButtons();
 	}
 
-	private void createDialogForm(Department obj, String absolute_name, Stage parent_stage) {
+	private void createDialogForm(Department object, String absoluteName, Stage parentStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolute_name));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 
 			DepartmentFormController controller = loader.getController();
-			controller.setDepartment(obj);
+			controller.setDepartment(object);
 			controller.setDepartmentService(instanceateDepartmentService());
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
-			Stage dialog_stage = instanceateStage();
-			dialog_stage.setTitle("Enter Department data");
-			dialog_stage.setScene(new Scene(pane));
-			dialog_stage.setResizable(false);
-			dialog_stage.initOwner(parent_stage);
-			dialog_stage.initModality(Modality.WINDOW_MODAL);
-			dialog_stage.showAndWait();
+			Stage dialogStage = instanceateStage();
+			dialogStage.setTitle("Enter Department data");
+			dialogStage.setScene(new Scene(pane));
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
 		} 
 		catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading biew", e.getMessage(), AlertType.ERROR);
@@ -134,9 +134,9 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	}
 
 	private void initEditButtons() {
-		this.table_column_edit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		this.tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 
-		this.table_column_edit.setCellFactory(param -> new TableCell<Department, Department>() {
+		this.tableColumnEdit.setCellFactory(param -> new TableCell<Department, Department>() {
 			private final Button button = new Button("edit");
 
 			@Override
@@ -155,9 +155,9 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	}
 
 	private void initRemoveButtons() {
-		this.table_column_remove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		this.tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		
-		this.table_column_remove.setCellFactory(param -> new TableCell<Department, Department>() {
+		this.tableColumnRemove.setCellFactory(param -> new TableCell<Department, Department>() {
 			private final Button button = new Button("remove");
 
 			@Override

@@ -25,13 +25,13 @@
          <children>
             <Label text="Id" />
             <Label text="Name" GridPane.rowIndex="1" />
-            <TextField fx:id="text_name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="text_id" editable="false" GridPane.columnIndex="1" />
-            <Label fx:id="label_error_name" textFill="#eb1717" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="textName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="textId" editable="false" GridPane.columnIndex="1" />
+            <Label fx:id="labelErrorName" textFill="#eb1717" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="button_save" mnemonicParsing="false" onAction="#onButtonSaveAction" text="Save" />
-                  <Button fx:id="button_cancel" mnemonicParsing="false" onAction="#onButtonCancelAction" text="Cancel" />
+                  <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#onButtonSaveAction" text="Save" />
+                  <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#onButtonCancelAction" text="Cancel" />
                </children>
             </HBox>
          </children>

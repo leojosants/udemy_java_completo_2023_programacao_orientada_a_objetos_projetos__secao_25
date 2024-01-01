@@ -13,23 +13,23 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	/*-------------------- attributes --------------------*/
-	private static Scene main_scene;
+	private static Scene mainScene;
 	
 	/*-------------------- methods --------------------*/
 	@Override
-	public void start(Stage primary_stage) {
+	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
 			
-			ScrollPane scroll_pane = loader.load();
-			scroll_pane.setFitToHeight(true);
-			scroll_pane.setFitToWidth(true);
+			ScrollPane scrollPane = loader.load();
+			scrollPane.setFitToHeight(true);
+			scrollPane.setFitToWidth(true);
 			
-			main_scene = new Scene(scroll_pane);
+			mainScene = new Scene(scrollPane);
 			
-			primary_stage.setScene(main_scene);
-			primary_stage.setTitle("Sample JavaFX application");
-			primary_stage.show();
+			primaryStage.setScene(mainScene);
+			primaryStage.setTitle("Sample JavaFX application");
+			primaryStage.show();
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -37,7 +37,7 @@ public class Main extends Application {
 	}
 	
 	public static Scene getMainScene() {
-		return main_scene;
+		return mainScene;
 	}
 
 	public static void main(String[] args) {
